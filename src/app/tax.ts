@@ -34,8 +34,8 @@ export type CoinInput = {
   buyAmt: string;
   /** 필요경비(수수료 등) */
   expenses: string;
-  /** 2027.1.1 전부터 보유했는지 */
-  isOld: boolean;
+  /** 2027.1.1 전부터 보유했는지 — null = 아직 답하지 않음(답하기 전에는 계산하지 않는다) */
+  isOld: boolean | null;
   /** 시행일 0시 시가 (양도 수량 총액) — 모르면 빈 문자열 */
   marketAmt: string;
   /** 저장된 양도차익 (저장 전 null) */
@@ -46,7 +46,7 @@ export const EMPTY_COIN_INPUT: CoinInput = {
   saleAmt: "",
   buyAmt: "",
   expenses: "",
-  isOld: false,
+  isOld: null,
   marketAmt: "",
   chaik: null,
 };
@@ -67,6 +67,7 @@ export type CoinResult = {
 /**
  * 코인 1종의 양도차익.
  *
+ * 보유 여부(isOld)에 답하기 전에는 valid=false — 미확인을 "아니요"로 임의 변환하지 않는다.
  * 취득가액 결정 순서:
  *  1) 2027년 전부터 보유 + 시행일 0시 시가 입력 → Max(실제 취득가, 시가)  [특례 적용, §37⑤]
  *  2) 실제 취득가 입력 → 실제 취득가                                   [실제 취득가 적용]
@@ -75,11 +76,12 @@ export type CoinResult = {
 export function calculateCoin(input: CoinInput): CoinResult {
   const sale = parseAmount(input.saleAmt);
   const actual = parseAmount(input.buyAmt);
-  const market = input.isOld ? parseAmount(input.marketAmt) : 0;
+  const market = input.isOld === true ? parseAmount(input.marketAmt) : 0;
   const rawExpenses = parseAmount(input.expenses);
 
   const positive = (n: number) => Number.isSafeInteger(n) && n > 0;
   const valid =
+    input.isOld !== null &&
     positive(sale) &&
     (!input.buyAmt || positive(actual)) &&
     (!input.isOld || !input.marketAmt || positive(market)) &&

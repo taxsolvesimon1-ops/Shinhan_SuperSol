@@ -1,4 +1,6 @@
 @import './fonts.css';
 @import './tailwind.css';
+@import './design-settings/design.css';
+@import './design-settings/design-ext.css';
 @import './theme.css';
 @import './app.css';

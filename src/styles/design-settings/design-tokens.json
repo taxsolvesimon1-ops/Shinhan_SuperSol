@@ -1,0 +1,1112 @@
+{
+  "title": "Reusable design settings · historical proposal",
+  "exportDate": "2026-10-12",
+  "basis": "User-confirmed recovered historical HTML + recorded Figma Foundation, last inspected 2026-10-06; not a fresh 2026-10-12 Figma export",
+  "format": "Portable flat JSON; aliasOf identifies an explicit named token. Not a Figma import plugin format.",
+  "provenance": "Shinhan/Toss strengths are the user’s design direction; these are this project’s tokens, not official bank design systems.",
+  "font": {
+    "preferred": "Pretendard",
+    "recordedApprovedSubstitute": "Noto Sans KR",
+    "bundledFontFiles": false,
+    "instruction": "Load chosen family explicitly. Font metrics differ; recheck Korean wrapping after switching."
+  },
+  "tokens": [
+    {
+      "name": "Color/White",
+      "type": "color",
+      "value": "#FFFFFF",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-white",
+      "scopes": []
+    },
+    {
+      "name": "Color/Surface/Page",
+      "type": "color",
+      "value": "#FFFFFF",
+      "unit": null,
+      "aliasOf": "Color/White",
+      "cssVariable": "--ds-color-surface-page",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/50",
+      "type": "color",
+      "value": "#F7F9FC",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-50",
+      "scopes": []
+    },
+    {
+      "name": "Color/Surface/Result",
+      "type": "color",
+      "value": "#F7F9FC",
+      "unit": null,
+      "aliasOf": "Color/Gray/50",
+      "cssVariable": "--ds-color-surface-result",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/100",
+      "type": "color",
+      "value": "#F2F4F6",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-100",
+      "scopes": []
+    },
+    {
+      "name": "Color/Surface/Input",
+      "type": "color",
+      "value": "#F2F4F6",
+      "unit": null,
+      "aliasOf": "Color/Gray/100",
+      "cssVariable": "--ds-color-surface-input",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/200",
+      "type": "color",
+      "value": "#E5E8EB",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-200",
+      "scopes": []
+    },
+    {
+      "name": "Color/Border/Default",
+      "type": "color",
+      "value": "#E5E8EB",
+      "unit": null,
+      "aliasOf": "Color/Gray/200",
+      "cssVariable": "--ds-color-border-default",
+      "scopes": [
+        "STROKE_COLOR"
+      ]
+    },
+    {
+      "name": "Color/Gray/300",
+      "type": "color",
+      "value": "#D1D6DB",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-300",
+      "scopes": []
+    },
+    {
+      "name": "Color/Border/Preview",
+      "type": "color",
+      "value": "#D1D6DB",
+      "unit": null,
+      "aliasOf": "Color/Gray/300",
+      "cssVariable": "--ds-color-border-preview",
+      "scopes": [
+        "STROKE_COLOR"
+      ]
+    },
+    {
+      "name": "Color/Gray/900",
+      "type": "color",
+      "value": "#191F28",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-900",
+      "scopes": []
+    },
+    {
+      "name": "Color/Text/Primary",
+      "type": "color",
+      "value": "#191F28",
+      "unit": null,
+      "aliasOf": "Color/Gray/900",
+      "cssVariable": "--ds-color-text-primary",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/800",
+      "type": "color",
+      "value": "#333D4B",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-800",
+      "scopes": []
+    },
+    {
+      "name": "Color/Text/Strong",
+      "type": "color",
+      "value": "#333D4B",
+      "unit": null,
+      "aliasOf": "Color/Gray/800",
+      "cssVariable": "--ds-color-text-strong",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/600",
+      "type": "color",
+      "value": "#4E5968",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-600",
+      "scopes": []
+    },
+    {
+      "name": "Color/Text/Secondary",
+      "type": "color",
+      "value": "#4E5968",
+      "unit": null,
+      "aliasOf": "Color/Gray/600",
+      "cssVariable": "--ds-color-text-secondary",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Gray/500",
+      "type": "color",
+      "value": "#6B7684",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-gray-500",
+      "scopes": []
+    },
+    {
+      "name": "Color/Text/Muted",
+      "type": "color",
+      "value": "#6B7684",
+      "unit": null,
+      "aliasOf": "Color/Gray/500",
+      "cssVariable": "--ds-color-text-muted",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Blue/500",
+      "type": "color",
+      "value": "#2457E5",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-blue-500",
+      "scopes": []
+    },
+    {
+      "name": "Color/Action/Primary",
+      "type": "color",
+      "value": "#2457E5",
+      "unit": null,
+      "aliasOf": "Color/Blue/500",
+      "cssVariable": "--ds-color-action-primary",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Amber/600",
+      "type": "color",
+      "value": "#B7791F",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-amber-600",
+      "scopes": []
+    },
+    {
+      "name": "Color/Status/Conditional",
+      "type": "color",
+      "value": "#B7791F",
+      "unit": null,
+      "aliasOf": "Color/Amber/600",
+      "cssVariable": "--ds-color-status-conditional",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Shadow/Preview",
+      "type": "color",
+      "value": "#191F2813",
+      "unit": null,
+      "aliasOf": null,
+      "cssVariable": "--ds-color-shadow-preview",
+      "scopes": []
+    },
+    {
+      "name": "Color/Shadow/Preview",
+      "type": "color",
+      "value": "#191F2813",
+      "unit": null,
+      "aliasOf": "Color/Shadow/Preview",
+      "cssVariable": "--ds-color-shadow-preview",
+      "scopes": [
+        "EFFECT_COLOR"
+      ]
+    },
+    {
+      "name": "Space/7",
+      "type": "number",
+      "value": 7,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-7",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/8",
+      "type": "number",
+      "value": 8,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-8",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/9",
+      "type": "number",
+      "value": 9,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-9",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/10",
+      "type": "number",
+      "value": 10,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-10",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/11",
+      "type": "number",
+      "value": 11,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-11",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/12",
+      "type": "number",
+      "value": 12,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-12",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/14",
+      "type": "number",
+      "value": 14,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-14",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/16",
+      "type": "number",
+      "value": 16,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-16",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/17",
+      "type": "number",
+      "value": 17,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-17",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/18",
+      "type": "number",
+      "value": 18,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-18",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/20",
+      "type": "number",
+      "value": 20,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-20",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/22",
+      "type": "number",
+      "value": 22,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-22",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/24",
+      "type": "number",
+      "value": 24,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-24",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/26",
+      "type": "number",
+      "value": 26,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-26",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/32",
+      "type": "number",
+      "value": 32,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-32",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Radius/4",
+      "type": "number",
+      "value": 4,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-4",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/7",
+      "type": "number",
+      "value": 7,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-7",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/8",
+      "type": "number",
+      "value": 8,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-8",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/13",
+      "type": "number",
+      "value": 13,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-13",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/14",
+      "type": "number",
+      "value": 14,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-14",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/17",
+      "type": "number",
+      "value": 17,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-17",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/18",
+      "type": "number",
+      "value": 18,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-18",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Radius/24",
+      "type": "number",
+      "value": 24,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-radius-24",
+      "scopes": [
+        "CORNER_RADIUS"
+      ]
+    },
+    {
+      "name": "Size/23",
+      "type": "number",
+      "value": 23,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-23",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Size/24",
+      "type": "number",
+      "value": 24,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-24",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Size/48",
+      "type": "number",
+      "value": 48,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-48",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Size/52",
+      "type": "number",
+      "value": 52,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-52",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Size/56",
+      "type": "number",
+      "value": 56,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-56",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Size/78",
+      "type": "number",
+      "value": 78,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-size-78",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ]
+    },
+    {
+      "name": "Border/1",
+      "type": "number",
+      "value": 1,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-border-1",
+      "scopes": [
+        "STROKE_FLOAT"
+      ]
+    },
+    {
+      "name": "Space/13",
+      "type": "number",
+      "value": 13,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-13",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Space/15",
+      "type": "number",
+      "value": 15,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-15",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "name": "Color/Text/OnAction",
+      "type": "color",
+      "value": "#FFFFFF",
+      "unit": null,
+      "aliasOf": "Color/White",
+      "cssVariable": "--ds-color-text-onaction",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Color/Brand/Mark",
+      "type": "color",
+      "value": "#2457E5",
+      "unit": null,
+      "aliasOf": "Color/Blue/500",
+      "cssVariable": "--ds-color-brand-mark",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ]
+    },
+    {
+      "name": "Color/Icon/Action",
+      "type": "color",
+      "value": "#2457E5",
+      "unit": null,
+      "aliasOf": "Color/Blue/500",
+      "cssVariable": "--ds-color-icon-action",
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ]
+    },
+    {
+      "name": "Color/Icon/Conditional",
+      "type": "color",
+      "value": "#B7791F",
+      "unit": null,
+      "aliasOf": "Color/Amber/600",
+      "cssVariable": "--ds-color-icon-conditional",
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ]
+    },
+    {
+      "name": "Color/Brand/OnMark",
+      "type": "color",
+      "value": "#FFFFFF",
+      "unit": null,
+      "aliasOf": "Color/White",
+      "cssVariable": "--ds-color-brand-onmark",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "name": "Space/0",
+      "type": "number",
+      "value": 0,
+      "unit": "px",
+      "aliasOf": null,
+      "cssVariable": "--ds-space-0",
+      "scopes": [
+        "GAP"
+      ]
+    }
+  ],
+  "textStyles": [
+    {
+      "role": "Amount",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 28,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 130
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -4
+      },
+      "cssClass": "ds-type-amount"
+    },
+    {
+      "role": "Chat",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 15,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 165
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-chat"
+    },
+    {
+      "role": "UserMessage",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 15,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 155
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-usermessage"
+    },
+    {
+      "role": "Explanation",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 14,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 165
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-explanation"
+    },
+    {
+      "role": "Condition",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 21
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-condition"
+    },
+    {
+      "role": "Assumption",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 14,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 155
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-assumption"
+    },
+    {
+      "role": "FactLabel",
+      "fontFamily": "Noto Sans KR",
+      "weight": 500,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 155
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-factlabel"
+    },
+    {
+      "role": "ResultRow",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 160
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-resultrow"
+    },
+    {
+      "role": "Note",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 160
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-note"
+    },
+    {
+      "role": "Details",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 160
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-details"
+    },
+    {
+      "role": "FactValue",
+      "fontFamily": "Noto Sans KR",
+      "weight": 600,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 155
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-factvalue"
+    },
+    {
+      "role": "DetailLink",
+      "fontFamily": "Noto Sans KR",
+      "weight": 600,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 160
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-detaillink"
+    },
+    {
+      "role": "Header",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 15,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 21
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-header"
+    },
+    {
+      "role": "HeaderSecondary",
+      "fontFamily": "Noto Sans KR",
+      "weight": 500,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 19
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-headersecondary"
+    },
+    {
+      "role": "AmountLabel",
+      "fontFamily": "Noto Sans KR",
+      "weight": 600,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 19
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-amountlabel"
+    },
+    {
+      "role": "Button",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 15,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 21
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-button"
+    },
+    {
+      "role": "Composer",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 19
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-composer"
+    },
+    {
+      "role": "ComposerAction",
+      "fontFamily": "Noto Sans KR",
+      "weight": 400,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 19
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-composeraction"
+    },
+    {
+      "role": "HeaderMark",
+      "fontFamily": "Noto Sans KR",
+      "weight": 800,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 19
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-headermark"
+    },
+    {
+      "role": "ChatMark",
+      "fontFamily": "Noto Sans KR",
+      "weight": 800,
+      "fontSizePx": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 17
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-chatmark"
+    },
+    {
+      "role": "ExplanationStrong",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 14,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 165
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-explanationstrong"
+    },
+    {
+      "role": "AssumptionStrong",
+      "fontFamily": "Noto Sans KR",
+      "weight": 700,
+      "fontSizePx": 14,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 155
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-assumptionstrong"
+    },
+    {
+      "role": "ResultRowValue",
+      "fontFamily": "Noto Sans KR",
+      "weight": 600,
+      "fontSizePx": 13,
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 160
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "cssClass": "ds-type-resultrowvalue"
+    }
+  ],
+  "components": {
+    "page": {
+      "background": "Color/Surface/Page",
+      "contentPadding": {
+        "top": 24,
+        "right": 20,
+        "bottom": 26,
+        "left": 20
+      },
+      "referenceViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "viewportUse": "Reference only; do not fix all application pages to 844px"
+    },
+    "card": {
+      "background": "Color/Surface/Result",
+      "padding": 20,
+      "radius": 18
+    },
+    "primaryButton": {
+      "background": "Color/Action/Primary",
+      "text": "Color/Text/OnAction",
+      "minHeight": 48,
+      "padding": {
+        "vertical": 12,
+        "horizontal": 15
+      },
+      "radius": 14,
+      "textRole": "Button",
+      "width": "available width"
+    },
+    "input": {
+      "background": "Color/Surface/Input",
+      "minHeight": 48,
+      "radius": 14,
+      "padding": {
+        "left": 16,
+        "right": 12
+      },
+      "textRole": "Composer"
+    },
+    "header": {
+      "height": 56,
+      "paddingHorizontal": 20,
+      "borderBottom": 1
+    },
+    "messageBubble": {
+      "paddingVertical": 12,
+      "paddingHorizontal": 15,
+      "radius": [
+        17,
+        17,
+        4,
+        17
+      ],
+      "textRole": "UserMessage"
+    },
+    "conditionalIcon": {
+      "color": "Color/Icon/Conditional"
+    },
+    "detailsLink": {
+      "color": "Color/Action/Primary",
+      "textRole": "DetailLink"
+    }
+  },
+  "effectStyles": [
+    {
+      "name": "PreviewPhoneShadow",
+      "type": "DROP_SHADOW",
+      "colorToken": "Color/Shadow/Preview",
+      "color": "#191F2813",
+      "blurPx": 45,
+      "spreadPx": 0,
+      "offsetPx": {
+        "x": 0,
+        "y": 16
+      },
+      "purpose": "Historical phone preview only; not a universal card shadow"
+    }
+  ]
+}

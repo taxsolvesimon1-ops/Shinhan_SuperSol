@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { calculateCoin, calculateTax, parseAmount, sumSavedGains, EMPTY_COIN_INPUT, TAX_RULES, type CoinInput } from "./tax";
 
-const coin = (patch: Partial<CoinInput>): CoinInput => ({ ...EMPTY_COIN_INPUT, ...patch });
+// 테스트 기본값: 보유 질문에 "아니요"로 답한 상태. 미응답(null) 케이스는 별도 테스트.
+const coin = (patch: Partial<CoinInput>): CoinInput => ({ ...EMPTY_COIN_INPUT, isOld: false, ...patch });
 
 describe("parseAmount", () => {
   it("쉼표·공백·'원'을 제거하고 정수로", () => {
@@ -78,6 +79,12 @@ describe("calculateCoin — 취득가액 결정 분기", () => {
   it("손실 코인은 음수 차익 그대로 반환 (이슈3: 손실 반영)", () => {
     const r = calculateCoin(coin({ saleAmt: "10,000,000", buyAmt: "13,000,000" }));
     expect(r.gain).toBe(-3_000_000);
+  });
+
+  it("보유 여부에 답하기 전(null)에는 금액이 있어도 invalid — 임의로 '아니요' 적용 금지", () => {
+    const r = calculateCoin(coin({ saleAmt: "50,000,000", buyAmt: "20,000,000", isOld: null }));
+    expect(r.valid).toBe(false);
+    expect(EMPTY_COIN_INPUT.isOld).toBeNull();
   });
 
   it("양도가액 0 또는 미입력은 invalid", () => {

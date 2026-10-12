@@ -1,0 +1,54 @@
+/*
+ * cointax 앱 확장 토큰 — design.css(주 세트, 지난 시안 실측값)에 없는 상태·역할만 추가한다.
+ * 주 세트 값은 바꾸지 않는다. 값의 출처:
+ *  - 상태색(성공·주의·오류)·눌림색: reference/운영기본값-원문.md (2026-10-06 신규 운영 기본값)
+ *  - 화면 제목·금액 입력 글자 크기: 앱 접근성 요구(iOS 16px 미만 자동 확대 방지)
+ * 사용가이드의 "두 기준을 섞지 않는다" 원칙에 따라 이 파일만 확장으로 표기한다.
+ */
+:root {
+  /* 상호작용 상태 */
+  --ds-ext-color-action-pressed: #1D46B8;
+  --ds-ext-color-action-soft: #EEF3FF;          /* 선택 영역·관련 안내 배경 */
+  --ds-ext-color-action-disabled: #D1D6DB;      /* = Color/Gray/300 */
+
+  /* 의미 상태 (문구+아이콘과 함께 쓰고 색만으로 전달하지 않는다) */
+  --ds-ext-color-success-text: #067647;
+  --ds-ext-color-success-bg: #ECFDF3;
+  --ds-ext-color-warning-text: #854A0E;
+  --ds-ext-color-warning-bg: #FFFAEB;
+  --ds-ext-color-error-text: #B42318;
+  --ds-ext-color-error-bg: #FEF3F2;
+  --ds-ext-color-conditional-bg: #FFF7E8;       /* amber-600(#B7791F) 글자용 연한 배경 */
+
+  /* 글자 역할 확장 */
+  --ds-ext-type-title-size: 24px;               /* 화면 제목 */
+  --ds-ext-type-title-line: 34px;
+  --ds-ext-type-section-size: 20px;             /* 섹션 제목 */
+  --ds-ext-type-section-line: 28px;
+  --ds-ext-type-amountinput-size: 16px;         /* 금액 입력 — iOS 자동 확대 방지 */
+
+  /* 하단 탭바 (주 세트에 없음) */
+  --ds-ext-tabbar-height: 56px;
+}
+
+.ds-ext-type-title { font-family: var(--ds-font-family); font-size: var(--ds-ext-type-title-size); font-weight: 700; line-height: var(--ds-ext-type-title-line); letter-spacing: -0.02em; color: var(--ds-color-text-primary); }
+.ds-ext-type-section { font-family: var(--ds-font-family); font-size: var(--ds-ext-type-section-size); font-weight: 600; line-height: var(--ds-ext-type-section-line); letter-spacing: -0.01em; color: var(--ds-color-text-primary); }
+
+/* 버튼 상태 확장 */
+.ds-button:active { background: var(--ds-ext-color-action-pressed); }
+.ds-button:disabled { background: var(--ds-ext-color-action-disabled); color: var(--ds-color-white); cursor: not-allowed; }
+.ds-button-secondary { font-family: var(--ds-font-family); font-size: 15px; font-weight: 700; line-height: 21px; min-height: var(--ds-size-48); padding: var(--ds-space-12) var(--ds-space-15); border: 1px solid var(--ds-color-border-default); border-radius: var(--ds-radius-14); background: var(--ds-color-white); color: var(--ds-color-text-strong); cursor: pointer; }
+.ds-button-secondary:active { background: var(--ds-color-gray-100); }
+.ds-button-soft { font-family: var(--ds-font-family); font-size: 15px; font-weight: 700; line-height: 21px; min-height: var(--ds-size-48); padding: var(--ds-space-12) var(--ds-space-15); border: 0; border-radius: var(--ds-radius-14); background: var(--ds-ext-color-action-soft); color: var(--ds-color-action-primary); cursor: pointer; }
+.ds-button-soft:active { background: #DCE6FF; }
+.ds-button-secondary:focus-visible, .ds-button-soft:focus-visible { outline: 3px solid var(--ds-color-action-primary); outline-offset: 3px; }
+
+/* 입력 오류 상태 */
+.ds-input[aria-invalid="true"], .ds-input-wrap[data-invalid="true"] { border-color: var(--ds-ext-color-error-text); }
+
+/* 상태 칩 */
+.ds-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-family: var(--ds-font-family); font-size: 12px; font-weight: 600; line-height: 17px; }
+.ds-chip-conditional { background: var(--ds-ext-color-conditional-bg); color: var(--ds-color-status-conditional); }
+.ds-chip-neutral { background: var(--ds-color-gray-100); color: var(--ds-color-text-secondary); }
+.ds-chip-action { background: var(--ds-ext-color-action-soft); color: var(--ds-color-action-primary); }
+.ds-chip-success { background: var(--ds-ext-color-success-bg); color: var(--ds-ext-color-success-text); }
