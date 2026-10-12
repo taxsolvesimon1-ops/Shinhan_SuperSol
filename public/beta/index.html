@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#2457E5" />
+  <title>코인 세금, 나도 내야 하나? 3분이면 압니다 — 코인택스 베타</title>
+  <meta name="description" content="2027년 코인 세금, 질문 3개로 내가 내는 사람인지부터 확인합니다. 세무사가 만든 코인택스, 신한SOL 베타 테스터 40명 모집(10.26~30). 거래내역 업로드 없이 직접 입력, 무료." />
+  <meta property="og:title" content="코인 세금, 나도 내야 하나? 3분이면 압니다" />
+  <meta property="og:description" content="세무사가 만든 코인택스 베타. 질문 3개로 내가 내는지·얼마인지 확인. 거래내역 파일 없이, 무료." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shinhan-supersol.vercel.app/beta/" />
+  <meta property="og:image" content="https://shinhan-supersol.vercel.app/beta/images/03.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/icon.png" />
+  <style>
+    html, body { margin: 0; }
+    img { max-width: 100%; }
+  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column (max 640px), 7 sections stacked, sticky CTA bar on phones.
+   Tokens: cointax-design-settings (design.css 주 세트 + design-ext.css 확장) — 앱과 동일. */
+:root{
+  --ds-font-family:"Noto Sans KR","Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --bg:#FFFFFF;             /* Color/Surface/Page */
+  --card:#F7F9FC;           /* Color/Surface/Result */
+  --input:#F2F4F6;          /* Color/Surface/Input */
+  --line:#E5E8EB;           /* Color/Border/Default */
+  --fg:#191F28;             /* Color/Text/Primary */
+  --strong:#333D4B;         /* Color/Text/Strong */
+  --secondary:#4E5968;      /* Color/Text/Secondary */
+  --muted:#6B7684;          /* Color/Text/Muted */
+  --primary:#2457E5;        /* Color/Action/Primary */
+  --primary-pressed:#1D46B8;/* ext */
+  --primary-soft:#EEF3FF;   /* ext */
+  --on-primary:#FFFFFF;     /* Color/Text/OnAction */
+  --cond:#B7791F;           /* Color/Status/Conditional */
+  --cond-bg:#FFF7E8;        /* ext */
+  --warning:#854A0E;        /* ext */
+  --warning-bg:#FFFAEB;     /* ext */
+  --shadow:#191F2813;       /* Color/Shadow/Preview — 폰 프레임 전용 */
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--ds-font-family);font-size:15px;line-height:1.65;margin:0;padding-inline:20px;padding-block:0 96px;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto}
+section{padding-block:48px;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0;padding-top:28px}
+.eyebrow{font-size:13px;font-weight:600;line-height:19px;color:var(--primary);margin:0 0 10px}
+h1{font-size:clamp(26px,6.5vw,32px);line-height:1.3;letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance;font-weight:700}
+h2{font-size:clamp(20px,5vw,24px);line-height:1.35;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance;font-weight:700}
+h3{font-size:15px;line-height:21px;margin:0 0 6px;font-weight:700}
+p{margin:0 0 14px}
+.lead{font-size:15px;line-height:1.65;color:var(--strong)}
+.muted{color:var(--secondary);font-size:14px;line-height:1.55}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}
+.tags li{font-size:12px;font-weight:600;line-height:17px;color:var(--primary);background:var(--primary-soft);border-radius:999px;padding:4px 10px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;line-height:21px;padding:12px 15px;border-radius:14px;text-decoration:none;border:0;cursor:pointer}
+.btn:active{background:var(--primary-pressed)}
+.btn:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.btn-note{font-size:13px;line-height:1.6;color:var(--secondary);margin:10px 0 0;text-align:center}
+.link-secondary{display:block;text-align:center;margin-top:12px;font-size:13px;font-weight:600;line-height:1.6;color:var(--primary);text-decoration:none}
+.link-secondary:hover{text-decoration:underline}
+.video{margin-top:28px;background:var(--card);border-radius:18px;overflow:hidden;padding:12px 12px 0}
+.video video{display:block;width:100%;max-width:300px;max-height:533px;aspect-ratio:9/16;margin:0 auto;background:#000;border-radius:14px}
+.video-cap{margin:0;padding:12px 8px 14px;font-size:13px;line-height:1.6;color:var(--secondary);text-align:center}
+.quote{background:var(--card);padding:16px 20px;border-radius:18px;margin:0 0 10px}
+.quote p{margin:0;font-size:15px;line-height:1.65;font-weight:600;color:var(--fg)}
+.quote cite{display:block;font-style:normal;font-size:13px;line-height:1.6;color:var(--muted);margin-top:6px}
+.quote + .after{margin:0 0 24px;padding-left:20px;color:var(--secondary);font-size:14px;line-height:1.65}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 24px}
+.ba > div{background:var(--card);border-radius:18px;padding:20px;min-width:0}
+.ba h3{font-size:13px;font-weight:600;line-height:19px;color:var(--muted);margin-bottom:10px}
+.ba ul{margin:0;padding-left:18px}
+.ba li{margin-bottom:8px;font-size:14px;line-height:1.55}
+.ba .after-col{background:var(--primary-soft)}
+.ba .after-col h3{color:var(--primary)}
+@media (max-width:480px){.ba{grid-template-columns:1fr}}
+.founder{border-top:1px solid var(--line);padding-top:20px}
+.founder p{font-size:14px;line-height:1.65;color:var(--strong)}
+.trust{display:grid;gap:12px;margin:0 0 24px;padding:0;list-style:none}
+.trust li{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:start;font-size:14px;line-height:1.55}
+.trust b{font-size:13px;font-weight:600;line-height:19px;color:var(--muted);padding-top:2px}
+details{border-top:1px solid var(--line);padding:12px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;font-size:14px;line-height:1.55;list-style:none;display:flex;justify-content:space-between;gap:12px;color:var(--fg)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--primary);font-weight:400;flex-shrink:0}
+details[open] summary::after{content:"−"}
+details p{margin:10px 0 0;font-size:14px;line-height:1.65;color:var(--secondary)}
+.points{display:grid;gap:24px}
+.point{display:grid;gap:12px}
+.point p{font-size:14px;line-height:1.65;color:var(--strong)}
+.shot{aspect-ratio:390/844;max-width:240px;width:100%;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:0 16px 45px var(--shadow)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.callout{background:var(--warning-bg);color:var(--warning);border-radius:14px;padding:14px 16px;font-size:14px;font-weight:600;line-height:1.55;margin-top:20px}
+.offer{background:var(--card);border-radius:18px;padding:20px}
+.offer ul{margin:0 0 16px;padding-left:20px}
+.offer li{margin-bottom:6px;font-size:14px;line-height:1.55}
+.offer p{font-size:14px;line-height:1.65}
+.stickybar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 20px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5}
+.stickybar .btn{max-width:640px;margin:0 auto}
+footer{padding-block:28px 0;font-size:13px;color:var(--muted);line-height:1.6}
+.open-chat{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:20px;border:1px solid var(--line);background:var(--bg);color:var(--strong);border-radius:14px;padding:12px 20px;text-decoration:none;font-weight:700;font-size:15px;line-height:21px}
+.open-chat:active{background:var(--input)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:background .12s,transform .12s}.btn:active{transform:scale(.98)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ① HERO -->
+<section id="hero">
+  <p class="eyebrow">신한SOL 베타 · 2026.10.26 – 10.30</p>
+  <h1>코인 세금, 나도 내야 하나?<br>3분이면 압니다.</h1>
+  <p class="lead">현재 코인을 갖고 계신 분이라면, 질문 3개로 내가 내는지·얼마인지를 보여드립니다. 신한SOL 앱 안에서, 무료.</p>
+  <ul class="tags">
+    <li>로그인 외 가입 없음</li>
+    <li>거래내역 파일 없이 직접 입력</li>
+    <li>세무사가 만듦</li>
+  </ul>
+  <a class="btn cta" href="#">앱에서 무료로 3분 확인하기</a>
+  <p class="btn-note">지금은 웹에서 바로 열립니다. 신한SOL 앱 안 서비스는 베타 기간(10.26~30)에 안내드립니다.</p>
+  <a class="link-secondary survey" href="#">베타 테스터 신청하기 (설문)</a>
+  <div class="video">
+    <video id="intro-video" src="intro.mp4" controls playsinline preload="metadata" poster="images/03.png">
+      영상을 재생할 수 없는 환경입니다.
+    </video>
+    <p class="video-cap"><strong>39초 소개 영상</strong> · 코인 선택 → 입력 → 예상 세액까지 실제 화면</p>
+  </div>
+</section>
+
+<!-- ② PROBLEM -->
+<section id="problem">
+  <p class="eyebrow">설문에 답해 주신 분들이 이렇게 적었습니다</p>
+  <h2>세율보다 앞에 있는 질문이 있습니다</h2>
+
+  <div class="quote"><p>"내가 납세의무가 있는지도 모르겠다"</p><cite>2024년부터 보유 · 국내 거래소 1곳</cite></div>
+  <p class="after">이 질문에 먼저 답합니다.</p>
+
+  <div class="quote"><p>"거래소 앱을 봐야 알 수 있고, 기억이 나지 않는다"</p><cite>산 가격을 아느냐는 질문에</cite></div>
+  <p class="after">그 '산 가격'이 2027년 1월 1일에 새로 정해집니다. 그날이 지나면 바꿀 수 없습니다. (2026.10. 기준)</p>
+
+  <div class="quote"><p>"코인 세금은 번거롭고 잘 모르겠습니다"</p><cite>설문 마지막 한 줄 소감</cite></div>
+  <p class="after">맞습니다. 그래서 질문을 세 개로 줄였습니다.</p>
+</section>
+
+<!-- ③ BEFORE / AFTER -->
+<section id="before-after">
+  <p class="eyebrow">3분 전과 후</p>
+  <h2>모른 채 미루던 상태에서, 내 숫자를 아는 상태로</h2>
+  <div class="ba">
+    <div>
+      <h3>지금</h3>
+      <ul>
+        <li>"나도 내야 하나?" 모른 채 미루는 중</li>
+        <li>산 가격은 "앱을 열어봐야 안다"</li>
+        <li>"귀찮아서" 내년 1월까지 미룬다</li>
+        <li>"정확한 가이드라인이 있나?" 모른다</li>
+      </ul>
+    </div>
+    <div class="after-col">
+      <h3>3분 뒤</h3>
+      <ul>
+        <li>내가 내는 사람인지 아닌지부터 안다</li>
+        <li>내 입력값 기준으로 계산된 숫자가 화면에 있다</li>
+        <li>질문 3개 답하고 끝. 저장해 두면 가격이 바뀔 때 다시 본다</li>
+        <li>지금 법 기준(2026.10.)으로 계산한 과정이 한 줄로 보인다</li>
+      </ul>
+    </div>
+  </div>
+  <div class="founder">
+    <h3>왜 세무사가 이걸 만드나</h3>
+    <p>저는 20년 넘게 상속·증여와 가상자산 세금을 다뤄 온 세무사입니다. 유튜브와 스레드에 코인 세금 글을 올리면서 알게 된 게 있습니다. 세금 콘텐츠는 만드는 것보다 유지하는 게 어렵고, 사람들이 정말 알고 싶은 건 제도 설명이 아니라 "그래서 나는?"이라는 것. 그 한 질문에 3분 안에 답하는 도구를 은행 앱 안에 만들고 있습니다.</p>
+    <p class="muted">— 김상문, 세무법인케이앤피 대표세무사, 세무학박사</p>
+  </div>
+</section>
+
+<!-- ④ TRUST -->
+<section id="trust">
+  <p class="eyebrow">누가 만드는가</p>
+  <h2>세금은 만드는 사람이 누구인지가 중요합니다</h2>
+  <ul class="trust">
+    <li><b>이력</b><span>세무법인케이앤피 대표세무사 김상문 · 세무학박사 · 경력 20년+ · 상속·증여와 가상자산 과세 전문</span></li>
+    <li><b>선발</b><span>신한퓨처스랩 Tomorrow Challenge 1차 선발(5팀) — 신한SOL 안에서 베타 진행</span></li>
+    <li><b>콘텐츠</b><span>코인택스TV(유튜브) · Threads @cointax_official · 디지털자산조세연구원 블로그</span></li>
+    <li><b>한 마디</b><span>"세금이 어렵지만 누가 도와주면 약간의 비용 지불의사 있음" — 설문 응답자</span></li>
+  </ul>
+  <h3>이런 걱정이 있으실 겁니다</h3>
+  <details><summary>은행이 내 코인을 아는 게 싫다</summary><p>거래내역 파일이나 지갑 주소를 요구하지 않습니다. 산 가격과 수량을 직접 입력하는 방식이 기본입니다.</p></details>
+  <details><summary>어차피 또 미뤄질 거 아닌가</summary><p>현재 법 기준으로는 2027년 1월 1일 시행입니다(2026.10. 기준). 개정 논의가 있으면 앱 안 안내로 바로 알려드립니다. 어느 쪽이든 내 숫자를 아는 게 손해 보는 일은 아닙니다.</p></details>
+  <details><summary>금액이 작아서 상관없다</summary><p>그럴 수 있습니다. 그걸 확인하는 데 3분이면 됩니다. 기본공제 아래면 "신고·납부 없음"이 먼저 뜨도록 만들었습니다.</p></details>
+  <details><summary>은행 앱 자체가 번거롭다 / 신한 고객이 아니다</summary><p>신한 슈퍼SOL 앱에서 이용합니다. 계좌 없이 이용 가능한지는 베타 안내에서 확정해 알려드립니다.</p></details>
+  <details><summary>세무사가 상담 유도하는 거 아니냐</summary><p>이 화면에서는 상담을 팔지 않습니다. 내가 내는지·얼마인지 확인하고 끝입니다. 더 필요하면 그때 물어보셔도 됩니다.</p></details>
+</section>
+
+<!-- ⑤ DEEP DIVE -->
+<section id="deep-dive">
+  <p class="eyebrow">질문 3개로 끝나는 이유</p>
+  <h2>기능이 아니라, 3분 뒤에 손에 쥐는 것</h2>
+  <div class="points">
+    <div class="point">
+      <div class="shot"><img src="images/01.png" alt="앱 화면 1: 2027년에 판 코인을 선택하는 화면" width="585" height="1266" loading="lazy"></div>
+      <h3>1. 내가 내는 사람인지부터</h3>
+      <p>갖고 있는 코인을 고르고, 2027년 전부터 갖고 있었는지를 답합니다. 여기서 갈립니다. 그 다음 판 금액을 넣으면, 기본공제(250만 원) 아래인지 위인지가 먼저 뜹니다. 아래면 거기서 끝입니다. (2026.10. 기준)</p>
+    </div>
+    <div class="point">
+      <div class="shot"><img src="images/02.png" alt="앱 화면 2: 보유 시점을 답하고 판 금액·산 금액·시가를 입력하면 차익이 바로 계산되는 화면" width="585" height="1266" loading="lazy"></div>
+      <h3>2. 산 가격을 몰라도 시작할 수 있게</h3>
+      <p>"앱을 열어봐야 안다"면 대략의 값으로 시작하세요. 2027년 전부터 갖고 있던 코인은 1월 1일 시가와 비교해 유리한 쪽이 자동 적용됩니다(소득세법 §37⑤). 정확한 값은 나중에 고쳐도 됩니다.</p>
+    </div>
+    <div class="point">
+      <div class="shot"><img src="images/03.png" alt="앱 화면 3: 적용 조건, 신고 대상 판정, 계산 과정 한 줄과 예상 세액이 나오는 결과 화면" width="585" height="1266" loading="lazy"></div>
+      <h3>3. 계산 과정과 납부 기한까지 한 화면에</h3>
+      <p>결과는 숫자 하나가 아니라 "어떻게 나왔는지" 한 줄과 "언제까지"가 같이 보입니다. 저장해 두면 가격이 바뀔 때 다시 볼 수 있습니다.</p>
+    </div>
+  </div>
+  <div class="callout">여기에 나오는 숫자는 입력하신 값으로 계산한 결과입니다. 신고는 실제 거래 기록으로 합니다.</div>
+</section>
+
+<!-- ⑥ OFFER -->
+<section id="offer">
+  <p class="eyebrow">베타 테스터 40분을 모십니다</p>
+  <h2>10월 26일부터 30일까지, 5일간</h2>
+  <div class="offer">
+    <ul>
+      <li>정원 40명, 선착순</li>
+      <li>비용 없음. 가입 없이 신한SOL 앱 안에서 바로</li>
+      <li>베타 참여자에게 세무사가 정리한 "2027년 전 보유자 체크리스트"(PDF)</li>
+      <li>베타 종료 후 오픈채팅에서 질문 받습니다</li>
+    </ul>
+    <p><strong>이번 베타는 현재 코인을 갖고 계신 분 대상입니다.</strong> 코인이 없으시면 이번엔 필요 없습니다.</p>
+    <a class="btn cta" href="#">앱에서 무료로 3분 확인하기</a>
+    <a class="link-secondary survey" href="#">베타 테스터 신청하기 (설문)</a>
+  </div>
+</section>
+
+<!-- ⑦ FAQ -->
+<section id="faq">
+  <p class="eyebrow">자주 묻는 질문</p>
+  <h2>시작하기 전에 궁금한 것</h2>
+  <details><summary>내 거래내역을 올려야 하나요?</summary><p>아니요. 산 가격과 수량을 직접 입력합니다. 파일 업로드나 지갑 연결은 없습니다.</p></details>
+  <details><summary>산 가격을 정확히 모르는데요?</summary><p>대략의 값으로 시작하세요. 2027년 전부터 갖고 있던 코인은 1월 1일 시가를 기준으로 취득가액이 정해지는 특례가 있어(소득세법 §37⑤, 2026.10. 기준) 실제 산 가격을 몰라도 계산할 수 있습니다.</p></details>
+  <details><summary>여기 나온 숫자로 신고하면 되나요?</summary><p>아니요. 입력값 기준의 확인용 계산입니다. 신고는 실제 거래 기록으로 해야 하고, 신고 시기는 2028년 5월입니다(2027년 양도분, 2026.10. 기준).</p></details>
+  <details><summary>과세가 또 미뤄지면요?</summary><p>현재 법 기준으로는 2027년 1월 1일 시행입니다. 개정이 논의되면 앱 안 안내로 바로 알려드립니다. 미뤄지더라도 입력해 둔 기록은 그대로 남습니다.</p></details>
+  <details><summary>세무사 상담으로 연결되나요?</summary><p>이 서비스 안에서는 상담 연결이 없습니다. 확인하고 끝입니다. 궁금한 점은 아래 문의로 물어보세요.</p></details>
+  <a class="open-chat" href="https://litt.ly/cointax" target="_blank" rel="noopener">1:1 문의하기</a>
+  <p class="muted" style="margin-top:12px">카카오톡 오픈채팅은 베타 시작 전에 열립니다. 그 전까지는 위 링크의 이메일로 문의해 주세요.</p>
+</section>
+
+<footer>
+  이 페이지와 서비스의 계산은 입력값과 2026년 10월 기준 법령에 따른 참고용이며, 개별 세액을 확정하거나 절세를 권유하지 않습니다.<br>
+  세무법인케이앤피 · taxsolve@hanmail.net · litt.ly/cointax
+</footer>
+
+</div>
+
+<div class="stickybar"><a class="btn cta" href="#">앱에서 무료로 3분 확인하기</a></div>
+
+<script>
+// 모든 CTA = 링크 하나. SOL 앱 딥링크를 받으면 SOL_LINK 한 줄만 바꾼다.
+// 2026-10-12: 딥링크 수령 전까지 실제 배포 앱(shinhan-supersol.vercel.app)으로 연결.
+// 베타 신청 설문은 SURVEY_LINK(보조 링크)로 유지.
+var SOL_LINK = "https://shinhan-supersol.vercel.app";
+var SURVEY_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSeHpO50-_7IXGu5r1TBx07uci2hhotvsVASczFAYbFcsRroiQ/viewform";
+(function(){
+  var src = "";
+  try { src = new URLSearchParams(location.search).get("utm_source") || ""; } catch(e){}
+  function withUtm(base){
+    if (!src) return base;
+    return base + (base.indexOf("?") > -1 ? "&" : "?") + "utm_source=" + encodeURIComponent(src) + "&utm_medium=landing&utm_campaign=beta2610";
+  }
+  var links = document.querySelectorAll("a.cta");
+  for (var i = 0; i < links.length; i++) { links[i].href = withUtm(SOL_LINK); links[i].target = "_blank"; links[i].rel = "noopener"; }
+  var surveys = document.querySelectorAll("a.survey");
+  for (var j = 0; j < surveys.length; j++) { surveys[j].href = withUtm(SURVEY_LINK); surveys[j].target = "_blank"; surveys[j].rel = "noopener"; }
+})();
+</script>
+
+</body>
+</html>
