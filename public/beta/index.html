@@ -331,7 +331,6 @@ track("enter");
     say(r.img, r.line, r.sub);
     setDots(3); stepEl.textContent = "결과"; backBtn.hidden = true;
     document.getElementById("skip").hidden = true;
-    track.__kakaoBound || (track.__kakaoBound = !!document.getElementById("kakao").addEventListener("click", function(){ track("cta_kakao"); }));
     body.innerHTML = "";
     var wrap = el("div", "fade");
     wrap.appendChild(el("div", "verdict " + r.kind, "<b>" + r.title + "</b><p>" + r.body + "</p>"));
@@ -346,6 +345,7 @@ track("enter");
     body.appendChild(wrap);
   }
   backBtn.addEventListener("click", function(){ if (idx > 0) { idx--; renderQ(); } });
+  document.getElementById("kakao").addEventListener("click", function(){ track("cta_kakao"); });
   renderQ();
 })();
 </script>
