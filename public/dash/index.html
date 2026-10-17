@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#2457E5" />
+  <meta name="robots" content="noindex" />
+  <title>코인택스 베타 대시보드</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <script src="/config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+  <style>
+  /* cointax-design-settings 토큰(앱·랜딩과 동일). 집계 숫자만 표시, 개인 단위 기록 없음. */
+  :root{
+    --ds-font-family:"Noto Sans KR","Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    --bg:#FFFFFF;--card:#F7F9FC;--input:#F2F4F6;--line:#E5E8EB;
+    --fg:#191F28;--strong:#333D4B;--secondary:#4E5968;--muted:#6B7684;
+    --primary:#2457E5;--primary-soft:#EEF3FF;--cond:#B7791F;--cond-bg:#FFF7E8;
+    --warning:#854A0E;--warning-bg:#FFFAEB;--success:#067647;--success-bg:#ECFDF3;--error:#B42318;--error-bg:#FEF3F2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--fg);font-family:var(--ds-font-family);font-size:15px;line-height:1.6;padding:0 20px 48px;word-break:keep-all;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto}
+  header{padding:24px 0 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+  h1{font-size:22px;line-height:1.3;margin:0;font-weight:700}
+  .sub{font-size:13px;color:var(--muted);margin:0}
+  .status{margin-left:auto;font-size:13px;color:var(--secondary)}
+  .status b{color:var(--primary);font-weight:600}
+  h2{font-size:17px;line-height:1.4;margin:28px 0 12px;font-weight:700}
+  h2 small{font-size:13px;font-weight:400;color:var(--muted);margin-left:8px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+  .card{background:var(--card);border-radius:18px;padding:16px 18px}
+  .card .k{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 4px}
+  .card .v{font-size:14px;line-height:1.55;color:var(--strong);margin:0}
+  .funnels{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+  .panel{background:var(--card);border-radius:18px;padding:18px 20px}
+  .panel h3{font-size:15px;margin:0 0 4px;font-weight:700}
+  .panel .note{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .row{display:grid;grid-template-columns:72px 1fr 92px;align-items:center;gap:10px;padding:7px 0}
+  .row .lbl{font-size:14px;color:var(--secondary)}
+  .bar{height:14px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--primary);border-radius:0 4px 4px 0;min-width:2px;transition:width .3s}
+  .row.drop .bar i{background:var(--cond)}
+  .row .num{font-size:14px;text-align:right;color:var(--fg);font-variant-numeric:tabular-nums}
+  .row .num small{color:var(--muted);margin-left:4px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+  .tile{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .tile .k{font-size:12px;color:var(--muted);margin:0 0 2px}
+  .tile .v{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0;font-variant-numeric:tabular-nums}
+  .tile .v small{font-size:12px;font-weight:400;color:var(--muted);margin-left:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+  th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  th{font-size:12px;font-weight:600;color:var(--muted)}
+  .tableWrap{overflow-x:auto;background:var(--card);border-radius:18px;padding:6px 12px}
+  .summary{background:var(--primary-soft);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.6}
+  .summary b{color:var(--primary)}
+  .empty{color:var(--muted);font-size:14px;padding:8px 0}
+  .err{background:var(--error-bg);color:var(--error);border-radius:14px;padding:12px 16px;font-size:14px}
+  footer{margin-top:32px;font-size:12px;color:var(--muted);line-height:1.6}
+  footer a{color:var(--primary);text-decoration:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>코인택스 베타 대시보드</h1>
+      <p class="sub">신한SOL Tomorrow Challenge · 2주차 과제 · 집계 숫자만 표시합니다</p>
+    </div>
+    <p class="status" id="status">불러오는 중…</p>
+  </header>
+
+  <h2>베타 준비 카드 <small>운영진 안내 v1.3 12쪽 · 6가지</small></h2>
+  <div class="cards">
+    <div class="card"><p class="k">01 핵심 고객</p><p class="v">국내 거래소에서 코인을 사서 2027년 1월 1일 이후에도 갖고 있을 사람이, "나도 세금 내야 하나?" 하고 미루고 있을 때</p></div>
+    <div class="card"><p class="k">02 핵심 가치</p><p class="v">"내가 신고·납부 대상인지"를 입력값 기준으로 1분 안에 안다 — 판정 카드 + 적용 조건 + 계산 과정 한 줄</p></div>
+    <div class="card"><p class="k">03 미션·완료 기준</p><p class="v">진입(첫 화면) → 코인 선택·보유 질문·금액 입력 → 결과 화면. 완료 = 결과 화면 도달 + "이해됐나요?" 응답. 중단 = 시작 후 결과 미도달</p></div>
+    <div class="card"><p class="k">04 현재 제공 범위</p><p class="v">동작: 코인별 입력·손실 통산·취득가액 특례(§37⑤)·50% 의제·판정·세액·기한·기기 저장·FAQ. 가상 체험: 랜딩 30초 맛보기, 앱 예시 2종. 미연동: SOL 딥링크·거래소·지갑(의도적). AI: 서비스 안엔 없음 — 문의 1차 응답·피드백 분류·일일 리포트에 사용</p></div>
+    <div class="card"><p class="k">05 체험 환경</p><p class="v">웹 shinhan-supersol.vercel.app · 로그인·설치 없음 · 테스트 계정 불필요 · 가상 숫자 "예시로 먼저 해보기" · 문의: 김상문 세무사, 카카오톡 채널</p></div>
+    <div class="card"><p class="k">06 슈퍼SOL 기여 가설</p><p class="v">기존 고객 재방문 주력 — 세금은 "다음 관련 상황"형: 2027.1.1 전 확인 → 거래 후 재계산 → 2028.5 신고 전. 신규 유입(스레드·유튜브)은 보조로 측정</p></div>
+  </div>
+
+  <div id="error"></div>
+
+  <h2>퍼널 <small>사람 수(익명 브라우저 기준) · 전체 기간</small></h2>
+  <div class="funnels">
+    <div class="panel" id="f-app"><h3>앱 — 베타 미션</h3><p class="note">첫 화면 → 코인 선택 완료 → 첫 코인 입력 → 결과 화면</p><div class="rows"></div><div class="tiles"></div></div>
+    <div class="panel" id="f-beta"><h3>랜딩 — 30초 맛보기</h3><p class="note">진입 → 첫 답 → 판정 카드 → 앱 버튼</p><div class="rows"></div><div class="tiles"></div></div>
+  </div>
+
+  <h2>자동 요약 <small>규칙 기반 · 어디서 멈췄나 + 오늘 고칠 1개</small></h2>
+  <div class="summary" id="summary">기록이 쌓이면 여기에 요약이 나옵니다.</div>
+
+  <h2>채널별 진입·완료 <small>utm_source</small></h2>
+  <div class="tableWrap"><table id="t-source"><thead><tr><th>채널</th><th>화면</th><th>진입</th><th>시작</th><th>완료</th><th>완료율</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>중단 지점 <small>시작했지만 완료하지 못한 사람이 마지막으로 머문 단계</small></h2>
+  <div class="tableWrap"><table id="t-drop"><thead><tr><th>화면</th><th>단계</th><th>사람</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>일별 기록 <small>한국 시간 · 최근 14일</small></h2>
+  <div class="tableWrap"><table id="t-daily"><thead><tr><th>날짜</th><th>화면</th><th>이벤트 수</th><th>진입</th><th>시작</th><th>완료</th></tr></thead><tbody></tbody></table></div>
+
+  <footer>
+    기록 항목: 이벤트명 · 시각 · utm_source · 익명 번호. 이름·연락처·자산 정보·입력 금액은 기록하지 않습니다. 저장소: Supabase(집계 뷰만 공개 읽기).<br>
+    <a href="/beta">랜딩</a> · <a href="/">앱</a> · 세무법인케이앤피
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cfg = window.CT_CONFIG || {};
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var statusEl = $("#status");
+  if (!cfg.supabaseUrl || !cfg.supabaseKey) { $("#error").innerHTML = '<div class="err">설정(config.js)이 없어 기록을 불러올 수 없습니다. Vercel 환경변수 VITE_SUPABASE_URL·VITE_SUPABASE_KEY를 확인하세요.</div>'; statusEl.textContent = "설정 없음"; return; }
+
+  function get(view, q){
+    return fetch(cfg.supabaseUrl + "/rest/v1/" + view + (q ? "?" + q : ""), { headers: { apikey: cfg.supabaseKey, Authorization: "Bearer " + cfg.supabaseKey } })
+      .then(function(r){ if (!r.ok) throw new Error(view + " " + r.status); return r.json(); });
+  }
+  function pct(a, b){ return b ? Math.round(a / b * 100) + "%" : "–"; }
+  function n(x){ return Number(x || 0); }
+
+  function renderFunnel(id, f, steps, tiles){
+    var panel = $("#" + id), rows = $(".rows", panel), tl = $(".tiles", panel);
+    var base = n(f && f[steps[0].k]);
+    rows.innerHTML = steps.map(function(s){
+      var v = n(f && f[s.k]); var w = base ? Math.max(2, Math.round(v / base * 100)) : 0;
+      return '<div class="row' + (s.drop ? " drop" : "") + '"><span class="lbl">' + s.l + '</span><div class="bar"><i style="width:' + w + '%"></i></div><span class="num">' + v + '명<small>' + (s.k === steps[0].k ? "" : pct(v, base)) + '</small></span></div>';
+    }).join("");
+    tl.innerHTML = tiles.map(function(t){ return '<div class="tile"><p class="k">' + t.l + '</p><p class="v">' + t.v(f) + '</p></div>'; }).join("");
+  }
+
+  Promise.all([get("cointax_v_funnel"), get("cointax_v_by_source", "order=page,enter_n.desc"), get("cointax_v_dropoff"), get("cointax_v_daily", "order=day.desc&limit=28")])
+  .then(function(res){
+    var funnel = res[0], bySrc = res[1], drop = res[2], daily = res[3];
+    var app = funnel.find(function(r){ return r.page === "app"; }) || {};
+    var beta = funnel.find(function(r){ return r.page === "beta"; }) || {};
+    var total = daily.reduce(function(s, d){ return s + n(d.events_n); }, 0);
+    statusEl.innerHTML = "기록 <b>" + total + "</b>건 · " + new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul", hour12: false }) + " 기준";
+
+    renderFunnel("f-app", app,
+      [{k:"enter_n", l:"진입"}, {k:"start_n", l:"시작"}, {k:"input_n", l:"입력"}, {k:"complete_n", l:"완료"}],
+      [{l:"중단(시작−완료)", v:function(f){ return Math.max(0, n(f.start_n) - n(f.complete_n)) + "명"; }},
+       {l:"이해됐어요", v:function(f){ return n(f.understood_yes) + "<small>/ 모르겠어요 " + n(f.understood_no) + "</small>"; }},
+       {l:"예시로 시작", v:function(f){ return n(f.example_n) + "명"; }},
+       {l:"재방문(다른 날)", v:function(f){ return n(f.revisit_n) + "명"; }},
+       {l:"카톡 문의 클릭", v:function(f){ return n(f.cta_kakao_n) + "명"; }}]);
+    renderFunnel("f-beta", beta,
+      [{k:"enter_n", l:"진입"}, {k:"start_n", l:"첫 답"}, {k:"complete_n", l:"판정 확인"}, {k:"cta_app_n", l:"앱 버튼"}],
+      [{l:"중단(시작−완료)", v:function(f){ return Math.max(0, n(f.start_n) - n(f.complete_n)) + "명"; }},
+       {l:"카톡 문의 클릭", v:function(f){ return n(f.cta_kakao_n) + "명"; }}]);
+
+    // 자동 요약 — 강의안 "어느 숫자가 낮으면 무엇을 고치나" 규칙
+    var s = [];
+    var aE = n(app.enter_n), aS = n(app.start_n), aC = n(app.complete_n);
+    if (!aE && !n(beta.enter_n)) s.push("아직 기록이 없습니다. 채널별 링크를 한 번씩 눌러 기록이 쌓이는지 확인하세요.");
+    else {
+      var lossEnterStart = aE - aS, lossStartComplete = aS - aC;
+      var dropTop = drop.filter(function(d){ return d.page === "app"; }).sort(function(a, b){ return n(b.n) - n(a.n); })[0];
+      if (aE && lossEnterStart >= lossStartComplete && lossEnterStart > 0) s.push("앱에 들어온 " + aE + "명 중 <b>" + lossEnterStart + "명이 코인 선택 전에 멈췄습니다</b>. → 오늘 고칠 1개: 첫 화면에서 할 일을 '세금 계산' 하나로 더 크게, '예시로 먼저 해보기'를 바로 아래에.");
+      else if (aS && lossStartComplete > 0) s.push("시작한 " + aS + "명 중 <b>" + lossStartComplete + "명이 결과 전에 멈췄습니다</b>" + (dropTop ? " (가장 많이 멈춘 곳: " + dropTop.stage + ")" : "") + ". → 오늘 고칠 1개: 금액 입력 칸을 줄이고 '산 가격 모름'을 기본 경로로.");
+      else if (aE) s.push("앱 진입 " + aE + "명 중 " + aC + "명이 결과까지 갔습니다(" + pct(aC, aE) + "). 이탈이 작아 다음은 <b>재방문 이유</b>를 확인할 차례입니다.");
+      var u = n(app.understood_yes) + n(app.understood_no);
+      if (u) s.push("결과 이해: 이해됐어요 " + n(app.understood_yes) + " / 모르겠어요 " + n(app.understood_no) + " (" + pct(n(app.understood_yes), u) + ").");
+      var bE = n(beta.enter_n), bC = n(beta.complete_n), bA = n(beta.cta_app_n);
+      if (bE) s.push("랜딩: " + bE + "명 진입 → " + bC + "명 판정 확인 → " + bA + "명 앱 버튼(" + pct(bA, bE) + ").");
+    }
+    $("#summary").innerHTML = s.join(" ");
+
+    var tb = $("#t-source tbody");
+    tb.innerHTML = bySrc.length ? bySrc.map(function(r){ return "<tr><td>" + r.utm_source + "</td><td>" + (r.page === "app" ? "앱" : "랜딩") + "</td><td>" + n(r.enter_n) + "</td><td>" + n(r.start_n) + "</td><td>" + n(r.complete_n) + "</td><td>" + pct(n(r.complete_n), n(r.enter_n)) + "</td></tr>"; }).join("") : '<tr><td colspan="6" class="empty">기록 없음</td></tr>';
+
+    var td = $("#t-drop tbody");
+    td.innerHTML = drop.length ? drop.map(function(r){ return "<tr><td>" + (r.page === "app" ? "앱" : "랜딩") + "</td><td>" + r.stage + "</td><td>" + n(r.n) + "</td></tr>"; }).join("") : '<tr><td colspan="3" class="empty">중단 없음</td></tr>';
+
+    var tdy = $("#t-daily tbody");
+    tdy.innerHTML = daily.length ? daily.map(function(r){ return "<tr><td>" + r.day + "</td><td>" + (r.page === "app" ? "앱" : "랜딩") + "</td><td>" + n(r.events_n) + "</td><td>" + n(r.enter_n) + "</td><td>" + n(r.start_n) + "</td><td>" + n(r.complete_n) + "</td></tr>"; }).join("") : '<tr><td colspan="6" class="empty">기록 없음</td></tr>';
+  })
+  .catch(function(e){ statusEl.textContent = "불러오기 실패"; $("#error").innerHTML = '<div class="err">기록을 불러오지 못했습니다: ' + e.message + '</div>'; });
+})();
+</script>
+</body>
+</html>

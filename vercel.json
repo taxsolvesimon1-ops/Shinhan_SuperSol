@@ -5,12 +5,54 @@
   "outputDirectory": "dist",
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/beta", "destination": "/beta/index.html" },
-    { "source": "/beta/", "destination": "/beta/index.html" },
-    { "source": "/((?!beta(?:/|$)).*)", "destination": "/index.html" }
+    {
+      "source": "/beta",
+      "destination": "/beta/index.html"
+    },
+    {
+      "source": "/beta/",
+      "destination": "/beta/index.html"
+    },
+    {
+      "source": "/dash",
+      "destination": "/dash/index.html"
+    },
+    {
+      "source": "/dash/",
+      "destination": "/dash/index.html"
+    },
+    {
+      "source": "/((?!beta(?:/|$)|dash(?:/|$)|config\\.js$|track\\.js$).*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
-    { "source": "/((?!beta(?:/|$)).*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] },
-    { "source": "/beta/intro.mp4", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+    {
+      "source": "/beta/intro.mp4",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/((?!beta(?:/|$)).*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/config.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60"
+        }
+      ]
+    }
   ]
 }

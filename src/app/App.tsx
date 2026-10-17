@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, ChevronDown, BookOpen, Calculator, Home, CheckCircle2, Save, Trash2, RotateCcw, AlertCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, BookOpen, Calculator, Home, CheckCircle2, Save, Trash2, RotateCcw, AlertCircle, Sparkles, MessageCircle } from "lucide-react";
 import coinTaxLogo from "@/assets/coin_tax.png";
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/app/components/ui/accordion";
 import { calculateCoin, calculateTax, EMPTY_COIN_INPUT, TAX_RULES, type CoinInput, type AcquisitionMethod } from "./tax";
 import { clearState, loadState, saveState, storageAvailable, type StoredState } from "./storage";
+import { track, KAKAO_CHAT } from "./track";
 
 /*
  * 스타일 원칙 (cointax-design-settings 적용)
@@ -180,8 +181,8 @@ function PrimaryButton({ children, onClick, disabled }: { children: React.ReactN
 
 // ── screen 1: home ──────────────────────────────────────────────────────────
 
-function HomeScreen({ onInfo, onCalc, saved, onResume, onReset }: {
-  onInfo: () => void; onCalc: () => void;
+function HomeScreen({ onInfo, onCalc, onExample, saved, onResume, onReset }: {
+  onInfo: () => void; onCalc: () => void; onExample: () => void;
   saved: { count: number; savedAt: string | null } | null;
   onResume: () => void; onReset: () => void;
 }) {
@@ -214,6 +215,10 @@ function HomeScreen({ onInfo, onCalc, saved, onResume, onReset }: {
           <span className="flex items-center gap-2"><Calculator size={18} /> 세금 계산</span>
           <ChevronRight size={18} />
         </button>
+        <button type="button" onClick={onExample} className="ds-button-secondary w-full flex items-center justify-between" style={{ minHeight: 56 }}>
+          <span className="flex items-center gap-2"><Sparkles size={18} /> 예시로 먼저 해보기 <span className="ds-type-note" style={{ color: C.muted }}>가상 숫자 2종</span></span>
+          <ChevronRight size={18} />
+        </button>
         <button type="button" onClick={onInfo} className="ds-button-soft w-full flex items-center justify-between" style={{ minHeight: 56 }}>
           <span className="flex items-center gap-2"><BookOpen size={18} /> 세금 정보</span>
           <ChevronRight size={18} />
@@ -240,7 +245,7 @@ function HomeScreen({ onInfo, onCalc, saved, onResume, onReset }: {
         <br />· 입력값은 이 기기의 브라우저에만 저장되고 서버로 보내지 않습니다.
         <br />· 계산 결과는 입력값 기준 참고용이며 개별 세액을 확정하지 않습니다.
       </Note>
-      <p className="ds-type-note mt-3" style={{ color: C.muted }}>세무법인케이앤피 · 문의 litt.ly/cointax</p>
+      <p className="ds-type-note mt-3" style={{ color: C.muted }}>세무법인케이앤피 · <a href={KAKAO_CHAT} target="_blank" rel="noopener" style={{ color: C.primary }} onClick={() => track("cta_kakao")}>카카오톡으로 1:1 문의</a></p>
     </div>
   );
 }
@@ -611,6 +616,8 @@ function TaxScreen({ coins, inputs, onSaveResult, onReset, savedAt, canStore }: 
   const totalChaik = savedCoins.reduce((s, c) => s + (inputs[c.id].chaik ?? 0), 0);
   const t = calculateTax(totalChaik);
   const [justSaved, setJustSaved] = useState(false);
+  const [understood, setUnderstood] = useState<"yes" | "no" | null>(null);
+  useEffect(() => { track("complete"); }, []);
 
   const conditions = savedCoins
     .map((c) => ({ name: c.name, method: calculateCoin(inputs[c.id]).method }))
@@ -640,6 +647,28 @@ function TaxScreen({ coins, inputs, onSaveResult, onReset, savedAt, canStore }: 
             <p className="ds-type-amountlabel mb-1" style={{ color: "rgba(255,255,255,0.8)" }}>예상 세액 (지방소득세 포함)</p>
             <p className="ds-type-amount" style={{ color: C.white, fontSize: 32 }}>{fmtKRW(t.tax)}원</p>
           </div>
+        )}
+      </section>
+
+      {/* ①-1 이해 확인 (베타 완료 기준: 결과의 의미를 이해했는가) */}
+      <section className="app-card-outlined mb-4" style={{ padding: 16 }}>
+        {understood === null ? (
+          <>
+            <p className="ds-type-factvalue mb-2" style={{ color: C.text }}>이 결과, 무슨 뜻인지 이해되셨나요?</p>
+            <div className="flex gap-2">
+              <button type="button" className="ds-button-soft flex-1" onClick={() => { setUnderstood("yes"); track("understood", { answer: "yes" }); }}>이해됐어요</button>
+              <button type="button" className="ds-button-secondary flex-1" onClick={() => { setUnderstood("no"); track("understood", { answer: "no" }); }}>잘 모르겠어요</button>
+            </div>
+          </>
+        ) : understood === "yes" ? (
+          <p className="ds-type-note" style={{ color: C.success }}>고맙습니다. 아래 '어떻게 나왔나'에 계산 과정이 한 줄로 있어요.</p>
+        ) : (
+          <>
+            <p className="ds-type-note mb-2" style={{ color: C.secondary }}>어디가 헷갈리는지 알려주시면 세무사가 직접 답합니다. 금액은 보내지 않으셔도 돼요.</p>
+            <a href={KAKAO_CHAT} target="_blank" rel="noopener" className="ds-button-soft w-full flex items-center justify-center gap-2" onClick={() => track("cta_kakao")}>
+              <MessageCircle size={16} /> 카카오톡으로 물어보기
+            </a>
+          </>
         )}
       </section>
 
@@ -765,6 +794,8 @@ export default function App() {
     saveState({ version: 1, selectedTokens, inputs, savedIds, savedAt });
   }, [selectedTokens, inputs, savedIds, savedAt]);
 
+  useEffect(() => { track("enter"); }, []);
+
   const coins = useMemo(() => selectedTokens.map(getCoinDisplay), [selectedTokens]);
 
   const updateInput = (coinId: string, patch: Partial<CoinInput>) =>
@@ -777,6 +808,7 @@ export default function App() {
   };
 
   const saveCoin = (coinId: string, chaik: number) => {
+    track("input");
     updateInput(coinId, { chaik });
     const nextSaved = savedIds.includes(coinId) ? savedIds : [...savedIds, coinId];
     setSavedIds(nextSaved);
@@ -801,6 +833,24 @@ export default function App() {
     const keptSaved = savedIds.filter((id) => selectedTokens.includes(id));
     setSavedIds(keptSaved);
     setCurrentCoinId(selectedTokens.find((id) => !keptSaved.includes(id)) ?? selectedTokens[0] ?? "");
+    track("start", { coins: selectedTokens.length });
+    go("calc");
+  };
+
+  /** 가상 사례 2종 — 운영진 미션 "가상 거래 사례 입력 → 결과·조건·근거 확인". 실제 자산 정보를 요구하지 않는다.
+   *  ① 비트코인: 2024년 1,000만 원에 사서 2,000만 원에 판 가정, 2027.1.1 0시 시가 1,500만 원 → 특례(Max) 적용
+   *  ② 이더리움: 2027년에 500만 원에 사서 400만 원에 판 가정 → 손실, 통산 */
+  const startExample = () => {
+    const ex: Record<string, CoinInput> = {
+      btc: { saleAmt: "20,000,000", buyAmt: "10,000,000", expenses: "20,000", isOld: true, marketAmt: "15,000,000", chaik: null },
+      eth: { saleAmt: "4,000,000", buyAmt: "5,000,000", expenses: "0", isOld: false, marketAmt: "", chaik: null },
+    };
+    setSelectedTokens(["btc", "eth"]);
+    setInputs(ex);
+    setSavedIds([]);
+    setCurrentCoinId("btc");
+    track("example");
+    track("start", { coins: 2, example: true });
     go("calc");
   };
 
@@ -832,6 +882,7 @@ export default function App() {
       <HomeScreen
         onInfo={() => go("info")}
         onCalc={() => go("tokens")}
+        onExample={startExample}
         saved={savedIds.length > 0 ? { count: savedIds.length, savedAt } : null}
         onResume={() => go(savedIds.length === selectedTokens.length ? "tax" : "calc")}
         onReset={resetAll}

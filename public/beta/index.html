@@ -14,6 +14,8 @@
   <meta property="og:image" content="https://shinhan-supersol.vercel.app/beta/images/03.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/png" href="/favicon.png" />
+  <script src="/config.js"></script>
+  <script src="/track.js"></script>
   <link rel="apple-touch-icon" href="/icon.png" />
   <style>
     html, body { margin: 0; }
@@ -213,37 +215,18 @@ var SURVEY_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSeHpO50-_7IXGu5r1TBx
 (function(){
   var src = "";
   try { src = new URLSearchParams(location.search).get("utm_source") || ""; } catch(e){}
-  function withUtm(base){
-    if (!src) return base;
-    return base + (base.indexOf("?") > -1 ? "&" : "?") + "utm_source=" + encodeURIComponent(src) + "&utm_medium=landing&utm_campaign=beta2610";
-  }
+  function withUtm(base){ return window.ctWithUtm ? window.ctWithUtm(base) : base; }
   var links = document.querySelectorAll("a.cta");
   for (var i = 0; i < links.length; i++) { links[i].href = withUtm(SOL_LINK); links[i].target = "_blank"; links[i].rel = "noopener"; }
   var surveys = document.querySelectorAll("a.survey");
   for (var j = 0; j < surveys.length; j++) { surveys[j].href = withUtm(SURVEY_LINK); surveys[j].target = "_blank"; surveys[j].rel = "noopener"; }
-  window.__withUtm = withUtm; window.__utmSource = src;
+  window.__withUtm = withUtm;
 })();
 </script>
 
 <script>
-/* ── 사용 기록 (2주차 과제: 진입 / 시작 / 완료) ──
-   남기는 것: 이벤트명, 시각, utm_source(없으면 direct), 익명 번호(브라우저별 랜덤). 답·금액·이름·연락처는 남기지 않는다.
-   TRACK_ENDPOINT 가 비어 있으면 콘솔에만 찍힌다. Apps Script 웹앱 URL을 넣으면 시트로 전송된다. */
-var TRACK_ENDPOINT = "";
-var track = (function(){
-  var anon = "";
-  try { anon = localStorage.getItem("ct_anon") || ""; if (!anon) { anon = Math.random().toString(36).slice(2,10); localStorage.setItem("ct_anon", anon); } } catch(e){ anon = "na"; }
-  return function(event){
-    var row = { event: event, ts: new Date().toISOString(), utm_source: window.__utmSource || "direct", anon: anon, page: "beta" };
-    try { (window.ct_log = window.ct_log || []).push(row); } catch(e){}
-    if (!TRACK_ENDPOINT) return;
-    try {
-      var body = JSON.stringify(row);
-      if (navigator.sendBeacon) navigator.sendBeacon(TRACK_ENDPOINT, new Blob([body], {type:"text/plain"}));
-      else fetch(TRACK_ENDPOINT, {method:"POST", mode:"no-cors", body: body, keepalive:true});
-    } catch(e){}
-  };
-})();
+/* 사용 기록은 /track.js 공용. 랜딩은 page="beta" */
+var track = function(event, meta){ window.ctTrack("beta", event, meta || {}, event === "enter" || event === "start" || event === "complete"); };
 track("enter");
 </script>
 
@@ -340,7 +323,7 @@ track("enter");
     wrap.appendChild(app);
     wrap.appendChild(el("p", "btn-note", "로그인·가입 없이 웹에서 바로 열려요. 1분이면 끝나요."));
     var again = el("button", "retry", "처음부터 다시 답하기"); again.type = "button";
-    again.addEventListener("click", function(){ idx = 0; answers = {}; document.getElementById("skip").hidden = false; renderQ(); window.scrollTo({top:0, behavior:"smooth"}); });
+    again.addEventListener("click", function(){ track("retry"); idx = 0; answers = {}; document.getElementById("skip").hidden = false; renderQ(); window.scrollTo({top:0, behavior:"smooth"}); });
     wrap.appendChild(again);
     body.appendChild(wrap);
   }
