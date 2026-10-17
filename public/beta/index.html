@@ -193,7 +193,7 @@ footer{padding-block:28px 0;font-size:13px;color:var(--muted);line-height:1.6}
     <li><b>예상 세액 + 계산 한 줄</b><span>판정이 아니라 숫자로. 납부 기한과 함께, 저장해 두고 다시 볼 수 있어요</span></li>
   </ul>
   <p class="who">세무법인케이앤피 대표세무사 김상문(세무학박사·경력 20년+)이 만들었습니다. 신한퓨처스랩 Tomorrow Challenge 선발팀.</p>
-  <a class="open-chat" href="https://litt.ly/cointax" target="_blank" rel="noopener">1:1 문의하기</a>
+  <a class="open-chat" id="kakao" href="https://pf.kakao.com/_uhgxaX/chat" target="_blank" rel="noopener">카카오톡으로 1:1 문의하기</a>
 </section>
 
 <footer>
@@ -331,6 +331,7 @@ track("enter");
     say(r.img, r.line, r.sub);
     setDots(3); stepEl.textContent = "결과"; backBtn.hidden = true;
     document.getElementById("skip").hidden = true;
+    track.__kakaoBound || (track.__kakaoBound = !!document.getElementById("kakao").addEventListener("click", function(){ track("cta_kakao"); }));
     body.innerHTML = "";
     var wrap = el("div", "fade");
     wrap.appendChild(el("div", "verdict " + r.kind, "<b>" + r.title + "</b><p>" + r.body + "</p>"));
