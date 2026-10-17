@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light" />
   <meta name="theme-color" content="#2457E5" />
   <title>코인 세금, 나도 내야 하나? 3분이면 압니다 — 코인택스 베타</title>
-  <meta name="description" content="2027년 코인 세금, 질문 3개로 내가 내는 사람인지부터 확인합니다. 세무사가 만든 코인택스, 신한SOL 베타 테스터 40명 모집(10.26~30). 거래내역 업로드 없이 직접 입력, 무료." />
+  <meta name="description" content="2027년 코인 세금, 질문 3개 30초로 내가 내는 사람인지부터 확인합니다. 금액은 묻지 않아요. 세무사가 만든 코인택스, 신한SOL 베타. 거래내역 파일 없이 직접 입력, 무료." />
   <meta property="og:title" content="코인 세금, 나도 내야 하나? 3분이면 압니다" />
   <meta property="og:description" content="세무사가 만든 코인택스 베타. 질문 3개로 내가 내는지·얼마인지 확인. 거래내역 파일 없이, 무료." />
   <meta property="og:type" content="website" />
@@ -42,6 +42,8 @@
   --cond-bg:#FFF7E8;        /* ext */
   --warning:#854A0E;        /* ext */
   --warning-bg:#FFFAEB;     /* ext */
+  --success:#067647;        /* ext — "신고·납부 없음" 판정 */
+  --success-bg:#ECFDF3;     /* ext */
   --shadow:#191F2813;       /* Color/Shadow/Preview — 폰 프레임 전용 */
 }
 *{box-sizing:border-box}
@@ -107,31 +109,73 @@ footer{padding-block:28px 0;font-size:13px;color:var(--muted);line-height:1.6}
 .open-chat{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:20px;border:1px solid var(--line);background:var(--bg);color:var(--strong);border-radius:14px;padding:12px 20px;text-decoration:none;font-weight:700;font-size:15px;line-height:21px}
 .open-chat:active{background:var(--input)}
 @media (prefers-reduced-motion:no-preference){.btn{transition:background .12s,transform .12s}.btn:active{transform:scale(.98)}}
+
+/* ── 30초 맛보기 (TaxBot) ── 토큰만 사용. 말풍선 = Surface/Input, 카드 = Surface/Result */
+.bot-say{display:flex;align-items:flex-end;gap:12px;margin:4px 0 16px}
+.bot{width:96px;height:auto;flex:0 0 96px;display:block}
+.bubble{position:relative;flex:1;min-width:0;background:var(--input);border-radius:18px;border-bottom-left-radius:6px;padding:16px 18px}
+.bubble::before{content:"";position:absolute;left:-7px;bottom:14px;border-style:solid;border-width:6px 8px 6px 0;border-color:transparent var(--input) transparent transparent}
+.bubble h1{font-size:clamp(20px,5.6vw,24px);line-height:1.35;margin:0 0 6px}
+.bubble p{margin:0;font-size:14px;line-height:1.55;color:var(--secondary)}
+@media (min-width:480px){.bot{width:120px;flex-basis:120px}}
+.quiz{background:var(--card);border-radius:18px;padding:20px}
+.quiz-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;min-height:24px}
+.dots{display:inline-flex;gap:6px}
+.dots i{width:8px;height:8px;border-radius:999px;background:var(--line);display:block}
+.dots i.on{background:var(--primary)}
+.dots i.done{background:var(--primary);opacity:.4}
+.step{font-size:13px;font-weight:600;line-height:19px;color:var(--muted)}
+.back{margin-left:auto;background:none;border:0;padding:0;font:inherit;font-size:13px;font-weight:600;color:var(--primary);cursor:pointer;line-height:19px}
+.back:focus-visible,.choice:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.q{font-size:17px;font-weight:700;line-height:1.45;margin:0 0 14px;color:var(--fg)}
+.q small{display:block;font-size:13px;font-weight:400;line-height:1.55;color:var(--secondary);margin-top:4px}
+.choices{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.choice{display:flex;align-items:center;width:100%;min-height:48px;padding:12px 15px;background:var(--bg);border:1px solid var(--line);border-radius:14px;font:inherit;font-size:15px;font-weight:600;line-height:21px;color:var(--fg);text-align:left;cursor:pointer}
+.choice:hover{border-color:var(--primary)}
+.choice:active{background:var(--primary-soft);border-color:var(--primary)}
+.verdict{border-radius:14px;padding:14px 16px;margin:0 0 12px}
+.verdict b{display:block;font-size:17px;line-height:1.4;margin-bottom:6px}
+.verdict p{margin:0;font-size:14px;line-height:1.6}
+.verdict.ok{background:var(--success-bg);color:var(--success)}
+.verdict.check{background:var(--cond-bg);color:var(--warning)}
+.verdict.open{background:var(--input);color:var(--strong)}
+.verdict-note{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 16px}
+.quiz .btn{margin-top:4px}
+.quiz .link-secondary{margin-top:14px}
+.retry{display:block;margin:12px auto 0;background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);text-decoration:underline;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){
+  .fade{animation:fade .18s ease-out}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+}
 </style>
 </head>
 <body>
 
 <div class="wrap">
 
-<!-- ① HERO -->
+<!-- ① HERO = 30초 맛보기 (첫 화면이 곧 첫 질문) -->
 <section id="hero">
-  <p class="eyebrow">신한SOL 베타 · 2026.10.26 – 10.30</p>
-  <h1>코인 세금, 나도 내야 하나?<br>3분이면 압니다.</h1>
-  <p class="lead">현재 코인을 갖고 계신 분이라면, 질문 3개로 내가 내는지·얼마인지를 보여드립니다. 신한SOL 앱 안에서, 무료.</p>
-  <ul class="tags">
-    <li>로그인 외 가입 없음</li>
-    <li>거래내역 파일 없이 직접 입력</li>
-    <li>세무사가 만듦</li>
-  </ul>
-  <a class="btn cta" href="#">앱에서 무료로 3분 확인하기</a>
-  <p class="btn-note">지금은 웹에서 바로 열립니다. 신한SOL 앱 안 서비스는 베타 기간(10.26~30)에 안내드립니다.</p>
-  <a class="link-secondary survey" href="#">베타 테스터 신청하기 (설문)</a>
-  <div class="video">
-    <video id="intro-video" src="/beta/intro.mp4" controls playsinline preload="metadata" poster="/beta/images/03.png">
-      영상을 재생할 수 없는 환경입니다.
-    </video>
-    <p class="video-cap"><strong>39초 소개 영상</strong> · 코인 선택 → 입력 → 예상 세액까지 실제 화면</p>
+  <p class="eyebrow">신한SOL 베타 · 30초 맛보기</p>
+
+  <div class="bot-say" id="bot-say">
+    <img class="bot" id="bot-img" src="/beta/images/taxbot/hello.png" width="192" height="236" alt="TaxBot">
+    <div class="bubble">
+      <h1 id="bot-line">코인 세금, 나도 내야 하나?</h1>
+      <p id="bot-sub">질문 3개, 30초면 압니다. 금액은 묻지 않아요.</p>
+    </div>
   </div>
+
+  <div class="quiz" id="quiz" aria-live="polite">
+    <div class="quiz-head">
+      <span class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+      <span class="step" id="step">1 / 3</span>
+      <button type="button" class="back" id="back" hidden>이전</button>
+    </div>
+    <div id="quiz-body"></div>
+  </div>
+
+  <p class="btn-note">답은 저장하지 않습니다. 결과는 현재 법(2026.10. 기준)으로 안내하는 참고용입니다.</p>
+  <a class="link-secondary cta" href="#">맛보기 건너뛰고 앱에서 바로 계산하기</a>
 </section>
 
 <!-- ② PROBLEM -->
@@ -220,6 +264,12 @@ footer{padding-block:28px 0;font-size:13px;color:var(--muted);line-height:1.6}
     </div>
   </div>
   <div class="callout">여기에 나오는 숫자는 입력하신 값으로 계산한 결과입니다. 신고는 실제 거래 기록으로 합니다.</div>
+  <div class="video">
+    <video id="intro-video" src="/beta/intro.mp4" controls playsinline preload="metadata" poster="/beta/images/03.png">
+      영상을 재생할 수 없는 환경입니다.
+    </video>
+    <p class="video-cap"><strong>39초 소개 영상</strong> · 코인 선택 → 입력 → 예상 세액까지 실제 화면</p>
+  </div>
 </section>
 
 <!-- ⑥ OFFER -->
@@ -278,6 +328,133 @@ var SURVEY_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSeHpO50-_7IXGu5r1TBx
   for (var i = 0; i < links.length; i++) { links[i].href = withUtm(SOL_LINK); links[i].target = "_blank"; links[i].rel = "noopener"; }
   var surveys = document.querySelectorAll("a.survey");
   for (var j = 0; j < surveys.length; j++) { surveys[j].href = withUtm(SURVEY_LINK); surveys[j].target = "_blank"; surveys[j].rel = "noopener"; }
+  window.__withUtm = withUtm; window.__utmSource = src;
+})();
+</script>
+
+<script>
+/* ── 사용 기록 (2주차 과제: 진입 / 시작 / 완료) ──
+   남기는 것: 이벤트명, 시각, utm_source(없으면 direct), 익명 번호(브라우저별 랜덤). 답·금액·이름·연락처는 남기지 않는다.
+   TRACK_ENDPOINT 가 비어 있으면 콘솔에만 찍힌다. Apps Script 웹앱 URL을 넣으면 시트로 전송된다. */
+var TRACK_ENDPOINT = "";
+var track = (function(){
+  var anon = "";
+  try { anon = localStorage.getItem("ct_anon") || ""; if (!anon) { anon = Math.random().toString(36).slice(2,10); localStorage.setItem("ct_anon", anon); } } catch(e){ anon = "na"; }
+  return function(event){
+    var row = { event: event, ts: new Date().toISOString(), utm_source: window.__utmSource || "direct", anon: anon, page: "beta" };
+    try { (window.ct_log = window.ct_log || []).push(row); } catch(e){}
+    if (!TRACK_ENDPOINT) return;
+    try {
+      var body = JSON.stringify(row);
+      if (navigator.sendBeacon) navigator.sendBeacon(TRACK_ENDPOINT, new Blob([body], {type:"text/plain"}));
+      else fetch(TRACK_ENDPOINT, {method:"POST", mode:"no-cors", body: body, keepalive:true});
+    } catch(e){}
+  };
+})();
+track("enter");
+</script>
+
+<script>
+/* ── 30초 맛보기: 질문 3개 → 판정 카드 ── (2026.10. 기준 법령) */
+(function(){
+  var IMG = "/beta/images/taxbot/";
+  var Q = [
+    { id:"status", text:"지금 어떤 상황이세요?", hint:"하나만 골라 주세요.", img:"hello",
+      line:"코인 세금, 나도 내야 하나?", sub:"질문 3개, 30초면 압니다. 금액은 묻지 않아요.",
+      choices:[
+        {t:"코인을 갖고 있어요", v:"hold"},
+        {t:"팔았거나 팔 예정이에요", v:"sold"},
+        {t:"아직 코인이 없어요", v:"none", end:"none"}
+      ]},
+    { id:"after2027", text:"2027년 1월 1일 이후에도 팔거나 빌려줄 계획이 있나요?", hint:"2027년부터 판 차익에 세금이 생깁니다. 2026년에 판 건 해당 없어요.", img:"calc",
+      line:"하나만 더 볼게요.", sub:"언제 파느냐가 첫 번째 갈림길이에요.",
+      choices:[
+        {t:"네, 2027년 이후에도 거래해요", v:"yes"},
+        {t:"아니요, 2026년 안에 정리할 거예요", v:"no", end:"before"},
+        {t:"아직 모르겠어요", v:"unsure"}
+      ]},
+    { id:"gain", text:"2027년 한 해 차익이 250만 원을 넘을 것 같나요?", hint:"정확한 금액이 아니라 감으로요. 250만 원은 1년에 한 번 빼 주는 기본공제예요.", img:"think",
+      line:"마지막 질문이에요.", sub:"여기서 '내는 사람'인지가 갈려요.",
+      choices:[
+        {t:"넘을 것 같아요", v:"over"},
+        {t:"안 넘을 것 같아요", v:"under"},
+        {t:"모르겠어요", v:"unsure"}
+      ]}
+  ];
+  var R = {
+    none:   { kind:"ok", img:"idea", line:"지금은 할 게 없어요.", sub:"시작하실 때 다시 들러 주세요.",
+              title:"아직 신고할 일이 없어요",
+              body:"코인을 사고팔지 않았다면 2027년 과세 대상도 아니에요. 처음 거래하실 때 산 가격과 날짜만 적어 두세요. 그게 나중에 전부예요." },
+    before: { kind:"ok", img:"idea", line:"그럼 괜찮아요.", sub:"2026년에 판 건 과세 전이에요.",
+              title:"2026년 안에 정리하면 신고 대상이 아닐 가능성이 높아요",
+              body:"현재 법은 2027년 1월 1일 이후 판 차익부터 세금을 매겨요. 다만 2027년에도 갖고 있는 코인이 남으면, 그 코인의 산 가격이 1월 1일에 새로 정해져요. 그건 앱에서 미리 볼 수 있어요." },
+    under:  { kind:"ok", img:"idea", line:"그 정도면 괜찮아 보여요.", sub:"기본공제 안이면 신고·납부가 없어요.",
+              title:"신고·납부가 없을 가능성이 높아요",
+              body:"1년 차익이 250만 원 이하면 세금이 0원이고 신고도 하지 않아요. 다만 '차익'은 판 금액에서 산 금액을 뺀 값이라, 산 가격을 모르면 달라질 수 있어요. 앱에서 숫자를 넣으면 1분 안에 확인돼요." },
+    over:   { kind:"check", img:"calc", line:"그럼 한번 계산해 볼까요?", sub:"얼마인지는 금액을 넣어야 나와요.",
+              title:"신고 대상일 가능성이 높아요",
+              body:"250만 원을 넘는 차익에 22%(소득세 20% + 지방소득세 2%)가 붙어요. 2027년 전부터 갖고 있던 코인은 1월 1일 시가와 비교해 유리한 쪽으로 산 가격이 정해지니, 생각보다 적을 수도 있어요. 앱에서 1분이면 예상 세액이 나와요." },
+    unsure: { kind:"open", img:"think", line:"그래서 이 앱을 만들었어요.", sub:"모르는 게 당연해요. 숫자를 넣으면 바로 갈려요.",
+              title:"답에 따라 달라져요",
+              body:"'내는 사람인지'는 세 가지로 정해져요 — 언제 팔았는지, 차익이 250만 원을 넘는지, 2027년 전부터 갖고 있었는지. 앱에서 코인을 고르고 대략의 금액만 넣으면 이 세 가지가 자동으로 정리돼요." }
+  };
+  var idx = 0, answers = {}, started = false, done = false;
+  var body = document.getElementById("quiz-body"), dots = document.getElementById("dots").children,
+      stepEl = document.getElementById("step"), backBtn = document.getElementById("back"),
+      img = document.getElementById("bot-img"), line = document.getElementById("bot-line"), sub = document.getElementById("bot-sub");
+
+  function say(pose, l, s){ img.src = IMG + pose + ".png"; line.textContent = l; sub.textContent = s; }
+  function setDots(n){ for (var i=0;i<3;i++){ dots[i].className = i<n ? "done" : (i===n ? "on" : ""); } }
+  function el(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+  function renderQ(){
+    var q = Q[idx];
+    say(q.img, q.line, q.sub);
+    setDots(idx); stepEl.textContent = (idx+1) + " / 3"; backBtn.hidden = idx === 0;
+    body.innerHTML = "";
+    var wrap = el("div", "fade");
+    wrap.appendChild(el("p", "q", q.text + (q.hint ? "<small>" + q.hint + "</small>" : "")));
+    var ul = el("ul", "choices");
+    q.choices.forEach(function(c){
+      var li = el("li"), b = el("button", "choice", c.t); b.type = "button";
+      b.addEventListener("click", function(){ pick(q, c); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    wrap.appendChild(ul); body.appendChild(wrap);
+  }
+  function pick(q, c){
+    if (!started) { started = true; track("start"); }
+    answers[q.id] = c.v;
+    if (c.end) return renderR(c.end);
+    if (idx < Q.length - 1) { idx++; renderQ(); } else renderR(decide());
+  }
+  function decide(){
+    if (answers.after2027 === "unsure" || answers.gain === "unsure") return "unsure";
+    return answers.gain === "over" ? "over" : "under";
+  }
+  function renderR(key){
+    var r = R[key];
+    if (!done) { done = true; track("complete"); }
+    say(r.img, r.line, r.sub);
+    setDots(3); stepEl.textContent = "결과"; backBtn.hidden = true;
+    body.innerHTML = "";
+    var wrap = el("div", "fade");
+    wrap.appendChild(el("div", "verdict " + r.kind, "<b>" + r.title + "</b><p>" + r.body + "</p>"));
+    wrap.appendChild(el("p", "verdict-note", "고른 답 기준의 안내예요. 개별 세액을 확정하지 않으며, 신고는 실제 거래 기록으로 합니다. (2026.10. 기준)"));
+    var app = el("a", "btn", "앱에서 정확히 계산하기"); app.href = window.__withUtm(SOL_LINK); app.target = "_blank"; app.rel = "noopener";
+    app.addEventListener("click", function(){ track("cta_app"); });
+    wrap.appendChild(app);
+    wrap.appendChild(el("p", "btn-note", "로그인·가입 없이 웹에서 바로 열려요. 1분이면 끝나요."));
+    var news = el("a", "link-secondary", "출시·업데이트 소식 받기 (이메일)"); news.href = window.__withUtm(SURVEY_LINK); news.target = "_blank"; news.rel = "noopener";
+    news.addEventListener("click", function(){ track("cta_news"); });
+    wrap.appendChild(news);
+    var again = el("button", "retry", "처음부터 다시 답하기"); again.type = "button";
+    again.addEventListener("click", function(){ idx = 0; answers = {}; renderQ(); window.scrollTo({top:0, behavior:"smooth"}); });
+    wrap.appendChild(again);
+    body.appendChild(wrap);
+  }
+  backBtn.addEventListener("click", function(){ if (idx > 0) { idx--; renderQ(); } });
+  renderQ();
 })();
 </script>
 
